@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import './Signup.css'
 
 function Signup() {
+
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         firstname: "",
         middlename: "",
@@ -56,7 +59,7 @@ function Signup() {
             errMsg = user.password !== value ? "Passwords do not match" : "";
 
         setErr((prev) => ({ ...prev, [name]: errMsg }));
-        return errMsg === ""; 
+        return errMsg === "";
     };
 
     const handleBlur = (e) => {
@@ -84,11 +87,16 @@ function Signup() {
         const err = Object.entries(user).some(([key, value]) => !validate(key, value));
         if (!err) {
             const username = [user.firstname, user.middlename, user.lastname].filter(Boolean).join(" ");
-            setMsg(`Hello ${username}`);
-            console.log(user);
-            setUser({ firstname: "", middlename: "", lastname: "", email: "", password: "", cnfpassword: "" })
-            setErr({ firstname: "", middlename: "", lastname: "", email: "", password: "", cnfpassword: "" })
+            // setMsg(`Hello ${username}`);
+            // console.log(user);
+            // setUser({ firstname: "", middlename: "", lastname: "", email: "", password: "", cnfpassword: "" })
+            // setErr({ firstname: "", middlename: "", lastname: "", email: "", password: "", cnfpassword: "" })
+
+            navigate("/home", {
+                state: { username: username }
+            });
         }
+        return false;
 
     }
     return (
