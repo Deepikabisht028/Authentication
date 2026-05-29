@@ -1,5 +1,4 @@
 import './App.css'
-import Auth from './Auth'
 import Home from './Home'
 import Login from './login/Login'
 import Signup from './signup/Signup'
@@ -10,11 +9,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Auth />}>
-          <Route index element={<Signup />} />
-          <Route path='/login' element={<Login />} />
-        </Route>
-         <Route path="/home" element={<Home />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   )

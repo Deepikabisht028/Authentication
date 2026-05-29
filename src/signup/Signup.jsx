@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import './Signup.css'
 
@@ -30,6 +30,7 @@ function Signup() {
     const nameRegex = /^[A-Za-z ]+$/;
 
     const validateName = (name) => {
+        if(name === "") return "";
         if (name.length < 3) return "Too short";
         if (!nameRegex.test(name)) return "Only alphabets allowed";
         return "";
@@ -63,6 +64,9 @@ function Signup() {
     };
 
     const handleBlur = (e) => {
+        // Notes: relatedTarget is the target to which the focus is shifted from the current one.
+        // ?. is a Optional chaining it accesses a property only if the left side is not null/undefined  
+        // So ?. is a safety operator — it short-circuits and returns undefined instead of throwing an error when the left side is null or undefined.
         if (e.relatedTarget?.type === "submit") return;
 
         const name = e.target.name;
@@ -87,12 +91,16 @@ function Signup() {
         const err = Object.entries(user).some(([key, value]) => !validate(key, value));
         if (!err) {
             const username = [user.firstname, user.middlename, user.lastname].filter(Boolean).join(" ");
+            const password= user.password;
             // setMsg(`Hello ${username}`);
             // console.log(user);
             // setUser({ firstname: "", middlename: "", lastname: "", email: "", password: "", cnfpassword: "" })
             // setErr({ firstname: "", middlename: "", lastname: "", email: "", password: "", cnfpassword: "" })
+            localStorage.setItem(user.email,JSON.stringify({
+                username, password
+            }))
 
-            navigate("/home", {
+            navigate("/", {
                 state: { username: username }
             });
         }
@@ -126,6 +134,7 @@ function Signup() {
                  some() is a array method it return true is even one element matches the condition in this code case that is if field is empty or not */}
                 <button type="submit" disabled={Object.entries(user).some(([key, value]) => key !== "middlename" && !value) || user.password !== user.cnfpassword}>Sign up</button>
             </form>
+            <p>Already have an account ? <Link to='/login'>Login</Link></p>
         </div>
     );
 }
