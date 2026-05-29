@@ -100,6 +100,8 @@ function Signup() {
                 username, password
             }))
 
+            localStorage.setItem('loggedInUser',JSON.stringify(username));
+
             navigate("/", {
                 state: { username: username }
             });

@@ -1,8 +1,9 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate,useNavigate } from "react-router-dom";
 
 function MainPage({ username }) {
     const navigate = useNavigate();
     const handleClick = () => {
+        localStorage.removeItem('loggedInUser');
         navigate("/login");
     }
     return(
@@ -13,12 +14,9 @@ function MainPage({ username }) {
 }
 
 function Home() {
-    const location = useLocation();
-    const username = location.state?.username;
+    const username=JSON.parse(localStorage.getItem('loggedInUser'))|| "";
     console.log(username);
-    //const email= location.state?.email;
-    //localStorage.removeItem(email);
-
+    
     return (
          username? <MainPage username={username}/> :<Navigate to='/login'/>
     );

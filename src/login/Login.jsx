@@ -22,6 +22,7 @@ function Login() {
         e.preventDefault();
         const { username, password } = JSON.parse(localStorage.getItem(user.email))|| {};
         if (password && password === user.password) {
+            localStorage.setItem('loggedInUser',JSON.stringify(username));
             navigate("/", {
                 state: { username: username }
             });
